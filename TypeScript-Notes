@@ -1,0 +1,308 @@
+
+installation: npm install -g typescript
+
+Official TypeScript Install Docs: https://www.typescriptlang.org/#download-links
+
+TS Interface doc: https://www.typescriptlang.org/docs/handbook/interfaces.html
+
+Like SASS is to CSS, TS is to JS
+
+Statically Typed Language: When you declare something to be a int, string, bool, etc.
+Enforces intention of the code
+
+You're declaring the "type" of variable this will be or what will be returned, etc.
+
+'tsc' is the TypeScript compiler which spit out JS
+
+tsc --watch [filename] and it will watch the file and compile on-the-fly
+
+Angular 2 fully embraces TypeScript
+
+'Static' classes do not need instaniated 
+
+an underscore is a convention that indicates something is not accessible outside of the class
+
+What is TypeScript
+
+  In much the same way that statically typed languages like C++, Java, and C# have a strong typing system at compile time, TypeScript has much the same thing. This means that when the TypeScript compiler converts the contents of TypeScript files into JavaScript, it remembers the types of variables, parameters, and return values. It matches all of that up to make sure that we didn't make a mistake when assigning a value or using a value. In short this means that you as the programmer must specify a variables type in the code. The main advantage here is that all kinds of checking can be done by the compiler, and therefore a lot of trivial bugs are caught at a very early stage.
+
+  Here's an example. Let's say that we declared a variable named myNumber in our file and indicated that it should hold numeric values.
+
+    (function(){
+
+        //create a variable called myNumber and state that it should hold a number
+        let myNumber: number;
+
+        //bad: throws an error and wont compile
+        //demo.ts(6,5): error TS2322: Type '"eric"' is not assignable to type 'number'.
+        myNumber = "eric";
+
+        //good: happy code and compiles
+        myNumber = 1;
+
+  })()
+
+JavaScript developers hate TypeScript
+
+    Yeah, a lot of people say this. And, at first, it's probably true. For a lot of developers, JavaScript represents a kind of freedom from the harsh programming environments of statically typed compiled languages. The flip side of this is that TypeScript helps set the type expectations of the code. It includes more ceremony and more typing than plain old JavaScript; however, it allows developers to communicate the meaning of their code in a much more efficient manner. It helps get rid of that 'loosey goosey' feel of the language.
+
+TypeScript is made by Microsoft [insert opinion here]
+
+    Yes, TypeScript is a free and open-source programming language developed and maintained by Microsoft. It was developed for use internally and eventually realeased to the world.
+
+Working with TypeScript
+
+    In order to work with typescript we will need to install it's compiler. We can do this with npm.
+
+Official TypeScript Install Docs
+
+  $ npm install -g typescript
+  
+  We will be using Visual Studio Code for writing our .ts files. Visual Studio code (VS Code) is Microsofts light wieght IDE similar to sublime or atom. Since TypeScript is a Microsoft creation, VS Code provides a ton of features that make writing and working with TypeScript a breeze.
+
+  Example livingthing.ts file using the ES6 class definition
+
+
+    (function(){
+
+        class LivingThing {
+
+            name: string;
+            health: number;
+
+            constructor(name: string, health: number){
+                this.name = name;
+                this.health = health;
+            }
+
+        }
+
+        let Ogre = new LivingThing("Bob the Ogre", 80);
+
+        console.log(`The Ogre's name is ${Ogre.name} and his health is at ${Ogre.health}`);
+
+    })()
+
+    Now that we have a TypeScript File we need to turn it into a .js file. This is handled by the compiler. The compiler not only turns your code into native JavaScript, it compiles it down to previous versions of JavaScript. By default it compiles down to ES3 but this is configurable with th -t flag. This means we can use the latest and greatest features of the JavaScript language without worrying about compatibility with older broswers.
+
+$ tsc livingthing.ts
+
+livingthing.js file produced by the compiler
+
+
+  (function () {
+      var LivingThing = (function () {
+          function LivingThing(name, health) {
+              this.name = name;
+              this.health = health;
+          }
+          return LivingThing;
+      }());
+      var Ogre = new LivingThing("Bob the Ogre", 80);
+      console.log("The Ogre's name is " + Ogre.name + " and his health is at " + Ogre.health);
+  })();
+
+
+
+Interfaces with TypeScript
+
+  JavaScript does not natively support interfaces but TypeScript adds interface support. You can read the official docs here. An interface is a programming structure/syntax that allows you to enforce that certain properties or methods exist on an object. You can think of it as a type of contract that your class needs to honor.
+
+  A simple inteface example with a function that takes an object
+
+    //interface describing what attributes a person should have
+    interface IPerson {
+        firstName: string;
+        lastName: string;
+    }
+
+    //a function that takes a User that should honor the rules of the IPerson interface
+
+    function greeter(User: IPerson) {
+          return "Hello, " + User.firstName + " " + User.lastName;
+     }
+
+     //our user object that should look like a person in order to be passed the the greeter function
+    var User = { firstName: "Jane", lastName: "User" };
+
+    console.log(greeter(User));
+
+    Interfaces can also be attached to a class using the implemets keyword. Consider the following example with a class that implements an interface.
+
+      (function(){
+
+      //interface stating that anything that implements this interface must have the name and health properties
+      //name must be a string and health must be a number
+      interface ILivingThing {
+          name: string;
+          health: number;
+      }
+
+      //living thing implements the ILivingThing interface
+      class LivingThing implements ILivingThing {
+
+          name: string;
+          health: number;
+
+          constructor(name: string, health: number){
+              this.name = name;
+              this.health = health;
+          }
+
+      }
+
+    let Ogre = new LivingThing("Bob the Ogre", 80);
+
+    console.log(`The Ogre's name is ${Ogre.name} and his health is at ${Ogre.health}`);
+
+  })()
+
+Extending a class (ES6: Not TypeScript Specific)
+
+  In ES6 it is simple to extend a class using the extends keyword
+
+(function(){
+
+    class LivingThing {
+
+        name: string;
+        health: number;
+
+        constructor(name: string, health: number){
+            this.name = name;
+            this.health = health;
+        }
+    }
+
+  class Hero extends LivingThing {}
+
+  let SuperHero = new Hero("Superman", 100);
+    console.log(`The Hereos name is ${SuperHero.name} and his health is at ${SuperHero.health}`);
+  })()
+
+Public, Private and Static with TypeScript
+
+Public
+
+  All attributes in a class defined with TypeScript are public by default. This means they can be accessed freely outside the inside and outside the class. That is why in the example above we can say Ogre.health and access it's value.
+
+Private
+
+  When an attribute is marked private, it cannot be accessed from outside of its containing class. For example:
+
+    class LivingThing {
+
+        private name: string;
+        health: number;
+
+        constructor(name: string, health: number){
+            this.name = name;
+            this.health = health;
+        }
+    }
+
+    let Ogre = new LivingThing("Bob the Ogre", 80);
+
+    //this would throw an error because Ogre.name is private
+    console.log(`The Ogre's name is ${Ogre.name} and his health is at ${Ogre.health}`);
+
+Protected
+The protected modifier acts much like the private modifier with the exception that attributes declared protected can also be accessed by instances of deriving classes. For example,
+
+
+(function(){
+
+
+    class LivingThing {
+
+        protected name: string;
+        health: number;
+
+        constructor(name: string, health: number){
+            this.name = name;
+            this.health = health;
+        }
+
+    }
+
+    class Hero extends LivingThing {
+
+        getNameAndHealth(){
+            return `My name is ${this.name} and my health is ${this.health}`;
+        }
+
+    }
+
+    let SuperHero = new Hero("Superman", 100);
+
+
+    //good
+    console.log(SuperHero.getNameAndHealth());
+    //bad
+    console.log(SuperHero.name);
+
+})()
+
+A child class with a private attribute using getters and setters
+
+Usually if we are extending a class we want the functionality of the parent class with some customized functionality. In the following example we combine most of the concepts covered already with some custom stuff happening in the child class
+
+
+(function(){
+
+    //interface stating that anything that implements this interface must have the name and health properties
+    //name must be a string and health must be a number
+    interface ILivingThing {
+        name: string;
+        health: number;
+    }
+
+    //living thing implements the ILivingThing interface
+    class LivingThing implements ILivingThing {
+
+        name: string;
+        health: number;
+
+        constructor(name: string, health: number){
+            this.name = name;
+            this.health = health;
+        }
+
+    }
+
+    //class that extends living thing
+    class Hero extends LivingThing {
+
+        private _secretIdentity: string;
+
+        constructor(name: string, health: number, secretIdentity: string){
+            super(name, health)
+            this._secretIdentity = secretIdentity;
+        }
+
+        get secretIdentity(){
+            return this._secretIdentity;
+        }
+
+        set secretIdentity(identity: string){
+            this._secretIdentity;
+        }
+
+    }
+
+    let Ogre = new LivingThing("Bob the Ogre", 80);
+    let SuperHero = new Hero("Superman", 100, "Clark Kent");
+
+    console.log(`The Ogre's name is ${Ogre.name} and his health is at ${Ogre.health}`);
+    console.log(`The Super Heroes name is ${SuperHero.name} and his secret Identity is ${SuperHero.secretIdentity}`);
+
+    SuperHero.secretIdentity = "Eric Schwartz";
+
+    console.log(`The Super Heroes new secret Identity is ${SuperHero.secretIdentity}`);
+
+
+
+
+})()
+
+HERE ENDTH THE LESSON
