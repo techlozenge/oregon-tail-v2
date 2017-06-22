@@ -51,6 +51,10 @@ class Traveler implements ITraveler {
         if (Math.round(Math.random())) {
              this.food = this.food + 100;
         }
+        // if the traveler is sick this gives them the chance of getting better
+        if (this.food >= 20) {
+            this.isHealthy = true;
+        }
         return this.food;
     }
     eat() {    
